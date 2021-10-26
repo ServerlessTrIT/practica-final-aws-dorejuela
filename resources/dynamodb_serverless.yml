@@ -1,0 +1,15 @@
+Recources:
+    #documentación: https://docs.aws.amazon.com/es_es/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html
+    BooksTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: BooksTable
+        AttributeDefinitions:
+          - AttributeName: isbn
+            AttributeType: S
+        KeySchema:
+          - AttributeName: isbn
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

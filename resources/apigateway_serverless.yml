@@ -1,0 +1,12 @@
+Resources:
+    #Documentación: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-authorizer.html
+    MyAuthorizer:
+      Type: AWS::ApiGateway::Authorizer
+      Properties:
+        Name: MyAuthorizer-${self:provider.stage}
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        Type: COGNITO_USER_POOLS
+        ProviderARNs:
+          - !GetAtt MyCognitoPool.Arn
+        IdentitySource: method.request.header.Authorization
