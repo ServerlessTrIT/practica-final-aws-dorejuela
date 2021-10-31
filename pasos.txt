@@ -1,0 +1,17 @@
+1- Creamos la tabla BooksTable con el indice "isbn" como integer
+1.1 - En el nuevo frontal, seleccionamos la tabla, vamos a la pestaña "Flujo de DynamoDB" y lo activamos (para imagenes nuevas y old)
+2- Ejecutamos solucion serverles.yml. Desde la carpeta del proyecto ejecutar: sls deploy
+3- Creamos bucket bucketphotoscursoaws y subimos los ficheros del frontal web
+		aws s3api create-bucket --bucket bucketphotoscursoaws --region eu-central-1 --create-bucket-configuration LocationConstraint=eu-central-1
+	Retorna: "http://bucketphotoscursoaws.s3.amazonaws.com/"
+3.1-Subimos los ficheros estaticos
+		aws s3 cp index.html s3://bucketphotoscursoaws/index.html
+		aws s3 cp app.js s3://bucketphotoscursoaws/app.js
+3.1.1- Configurar el bucket como web estática
+	aws s3api put-bucket-website --bucket bucketphotoscursoaws --website-configuration file://configuration.json
+3.2-Creamos la politica:
+		aws s3api put-bucket-policy --bucket bucketphotoscursoaws --policy file://policy.json
+	An error occurred (AccessDenied) when calling the PutBucketPolicy operation: Access Denied
+3.3-Creamos distribucion de CloudFront
+	aws cloudfront create-distribution --origin-domain-name bucketphotoscursoaws.s3.amazonaws.com --default-root-object index.html
+	
